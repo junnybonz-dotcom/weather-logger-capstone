@@ -1,0 +1,4 @@
+env/
+*.db
+cron.log
+__pycache__/
