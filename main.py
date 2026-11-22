@@ -1,39 +1,35 @@
-import requests
 import sqlite3
 
-from fetch import fetch_weather
-from db import create_table, insert_weather
+from db import DB_PATH, create_table, insert_weather
+from fetch import WeatherFetchError, fetch_weather
 
 
-def run_once():
+def run_once(db_path=DB_PATH, weather_fetcher=fetch_weather):
     try:
-        create_table()
+        data = weather_fetcher()
 
-        data = fetch_weather()
+        create_table(db_path)
+        insert_weather(data, db_path)
 
-    except requests.exceptions.Timeout:
-        print("API call timed out — skipping this run.")
-        return
+    except WeatherFetchError as exc:
+        print(f"Weather API error: {exc}")
+        return False
 
-    except requests.exceptions.HTTPError as e:
-        print(f"API returned an error status: {e}")
-        return
+    except sqlite3.Error as exc:
+        print(f"Database error: {exc}")
+        return False
 
-    except requests.exceptions.RequestException as e:
-        print(f"Network problem reaching the API: {e}")
-        return
+    except (KeyError, TypeError, ValueError) as exc:
+        print(f"Invalid weather data: {exc}")
+        return False
 
-    except KeyError as e:
-        print(f"API response was missing an expected field: {e}")
-        return
+    print(f"Successfully logged: {data}")
+    return True
 
-    try:
-        insert_weather(data)
-        print(f"Logged: {data}")
 
-    except sqlite3.Error as e:
-        print(f"Database insert failed: {e}")
+def main():
+    return 0 if run_once() else 1
 
 
 if __name__ == "__main__":
-    run_once()
+    raise SystemExit(main())
