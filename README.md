@@ -1,5 +1,7 @@
 # Weather Logger — Automated Weather Data Pipeline
 
+[![Weather Logger CI](https://github.com/junnybonz-dotcom/weather-logger-capstone/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/junnybonz-dotcom/weather-logger-capstone/actions/workflows/tests.yml)
+
 A Python data pipeline deployed on an Ubuntu AWS EC2 instance. It retrieves current temperature and wind-speed data from the Open-Meteo API, stores timestamped readings in SQLite, and runs automatically every 15 minutes through cron.
 
 ## Skills Demonstrated
@@ -37,31 +39,47 @@ Open-Meteo API
 
 The pipeline collects weather readings, stores them locally, and makes them available for SQL analysis.
 
+## Testing Section 
+
+```markdown
+## Automated Tests
+
+Run the automated tests:
+
+```bash
+python -m unittest discover -s tests -v
+
 ## Project Structure
 
 ```text
 weather-logger-capstone/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── tests/
+│   ├── test_fetch.py
+│   ├── test_db.py
+│   └── test_main.py
 ├── README.md
+├── requirements.txt
 ├── fetch.py
 ├── db.py
 ├── main.py
-├── test_insert.py
-├── .gitignore
-└── capstone/
-    ├── original/
-    └── redo-oct21/
-```
+└── .gitignore
 
 The root-level Python scripts are the main project. The `capstone/` directory contains the original and rebuilt versions used for comparison and gap analysis.
 
 ## Requirements
 
-- Python 3
-- `pip`
-- The `requests` library
-- An internet connection for the public API
+- Python 3.12 or newer
+- pip
+- requests
+- An internet connection for the Open-Meteo API
 
-AWS EC2 and cron are required for the automated cloud deployment, but the Python pipeline can also be run manually on a compatible local machine.
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
 
 ## Setup
 

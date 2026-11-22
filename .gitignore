@@ -1,20 +1,33 @@
-# Python environment and cache
+# Python virtual environments
+.venv/
+venv/
 env/
+
+# Python cache
 __pycache__/
+*.py[cod]
 
-# Databases and logs
+# SQLite databases
 *.db
-*.log
-weather_log
+*.sqlite3
 
-# Secrets and private keys
+# Logs
+*.log
+
+# Secrets and local configuration
 .env
 .env.*
 !.env.example
 *.pem
 *.key
 *.ppk
-id_ed25519
-Private.ssh
 .aws/
 .ssh/
+Private.ssh
+id_ed25519
+
+# IDE and test output
+.vscode/
+.pytest_cache/
+.coverage
+htmlcov/
